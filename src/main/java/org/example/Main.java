@@ -40,21 +40,21 @@ public class Main {
         System.out.println("площадь круга " + circle.area());
         System.out.println("периметр " + circle.perimeter());
         System.out.println("цвет границ " + circle.getBorderColor());
-        System.out.println("цвет заливки" + circle.getFillColor());
+        System.out.println("цвет заливки " + circle.getFillColor());
 
         System.out.println("\n");
         Triangle triangle = new Triangle("black", "yellow", 3, 2, 5, 2);
         System.out.println("площадь треугольника " + triangle.area());
         System.out.println("периметр " + triangle.perimeter());
         System.out.println("цвет границ " + triangle.getBorderColor());
-        System.out.println("цвет заливки" + triangle.getFillColor());
+        System.out.println("цвет заливки " + triangle.getFillColor());
 
         System.out.println("\n");
         Rectangle rectangle = new Rectangle("white", "white", 10, 10, 10);
         System.out.println("площадь круга " + rectangle.area());
         System.out.println("периметр " + rectangle.perimeter());
         System.out.println("цвет границ " + rectangle.getBorderColor());
-        System.out.println("цвет заливки" + rectangle.getFillColor());
+        System.out.println("цвет заливки " + rectangle.getFillColor());
     }
 
 }

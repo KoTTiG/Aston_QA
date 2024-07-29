@@ -1,36 +1,31 @@
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.example.Factorial;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
-class FactorialTest {
+import java.util.HashMap;
+import java.util.Map;
 
+import static org.testng.Assert.assertEquals;
 
-    @Test
-    public void test1() {
-        Factorial factorial = new Factorial();
-        int actual = factorial.factorial(5);
-        int expected = 120;
-        assertEquals(actual, expected);
+class FactorialTest extends Assert {
+    private final Map<Integer, Integer> testData = new HashMap<>();
 
+    @BeforeClass
+    public void setUp() {
+        testData.put(5, 120);
+        testData.put(0, 1);
+        testData.put(-5, -1);
     }
 
     @Test
-    public void test2() {
-        Factorial factorial = new Factorial();
-        int actual = factorial.factorial(0);
-        int expected = 1;
-        assertEquals(actual, expected);
+    public  void factorialTest(){
+        for (Map.Entry<Integer,Integer> data : testData.entrySet()){
+            final int actual = data.getValue();
+            final int expected = Factorial.factorial(data.getKey());
 
-    }
-
-    @Test
-    public void test3() {
-        Factorial factorial = new Factorial();
-        int actual = factorial.factorial(-5);
-        int expected = -1;
-        assertEquals(actual, expected);
-
+            assertEquals(actual,expected);
+        }
     }
 }

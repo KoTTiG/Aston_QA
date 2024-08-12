@@ -8,8 +8,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,8 +31,10 @@ class ChromeTest {
     void setup() {
         driver = new ChromeDriver();
         driver.get("https://www.mts.by/");
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.findElement(By.id("cookie-agree")).click();
+
+
     }
 
     @AfterEach
@@ -36,45 +43,96 @@ class ChromeTest {
     }
 
     @Test
-    void testTitle() {
-
+    void testFields() {
         WebElement field = driver.findElement(By.className("pay"));
-        String title = field.findElement(By.tagName("h2")).getText();
-        assertEquals(title,"Онлайн пополнение\nбез комиссии");
+
+        WebElement account = field.findElement(By.id("connection-phone"));
+        String textAccount = account.getAttribute("placeholder");
+        WebElement sum = field.findElement(By.id("connection-sum"));
+        String textSum = sum.getAttribute("placeholder");
+        WebElement mail = field.findElement(By.id("connection-email"));
+        String textMail = mail.getAttribute("placeholder");
+
+        assertEquals("Номер телефона", textAccount);
+        assertEquals("Сумма", textSum);
+        assertEquals("E-mail для отправки чека", textMail);
+
+        field.findElement(By.className("select__header")).click();
+
+        account = field.findElement(By.id("internet-phone"));
+        textAccount = account.getAttribute("placeholder");
+        sum = field.findElement(By.id("internet-sum"));
+        textSum = sum.getAttribute("placeholder");
+        mail = field.findElement(By.id("internet-email"));
+        textMail = mail.getAttribute("placeholder");
+
+        assertEquals("Номер абонента", textAccount);
+        assertEquals("Сумма", textSum);
+        assertEquals("E-mail для отправки чека", textMail);
+
+        account = field.findElement(By.id("score-instalment"));
+        textAccount = account.getAttribute("placeholder");
+        sum = field.findElement(By.id("instalment-sum"));
+        textSum = sum.getAttribute("placeholder");
+        mail = field.findElement(By.id("instalment-email"));
+        textMail = mail.getAttribute("placeholder");
+
+        assertEquals("Номер счета на 44", textAccount);
+        assertEquals("Сумма", textSum);
+        assertEquals("E-mail для отправки чека", textMail);
+
+        account = field.findElement(By.id("score-arrears"));
+        textAccount = account.getAttribute("placeholder");
+        sum = field.findElement(By.id("arrears-sum"));
+        textSum = sum.getAttribute("placeholder");
+        mail = field.findElement(By.id("arrears-email"));
+        textMail = mail.getAttribute("placeholder");
+
+        assertEquals("Номер счета на 2073", textAccount);
+        assertEquals("Сумма", textSum);
+        assertEquals("E-mail для отправки чека", textMail);
+
     }
 
     @Test
-    void testIcon() {
-
-        WebElement field = driver.findElement(By.className("pay"));
-        WebElement icons = field.findElement(By.className("pay__partners"));
-        assertEquals(true,icons.isDisplayed());
-    }
-
-    @Test
-    void testLink() {
-
-        WebElement field = driver.findElement(By.className("pay"));
-
-        field.findElement(By.tagName("a")).click();
-        String url = driver.getCurrentUrl();
-        assertEquals(url,"https://www.mts.by/help/poryadok-oplaty-i-bezopasnost-internet-platezhey/");
-
-    }
-
-    @Test
-    void testInput() {
-
+    void testFrame() throws InterruptedException {
         WebElement field = driver.findElement(By.className("pay"));
         WebElement phone = field.findElement(By.id("connection-phone"));
         phone.click();
-        phone.sendKeys("297777777");
+        String expected_phone = "297777777";
+        phone.sendKeys(expected_phone);
         WebElement fieldSum = field.findElement(By.id("connection-sum"));
         fieldSum.click();
-        fieldSum.sendKeys("100");
+        String expected_cost = "100";
+        fieldSum.sendKeys(expected_cost);
         WebElement btn = field.findElement(By.className("button"));
         btn.click();
-        assertNotEquals(null, driver.findElement(By.className("bepaid-app")));
+
+        WebElement iframe = driver.findElement(By.className("bepaid-iframe"));
+
+
+        driver.switchTo().frame(iframe);
+        WebElement divCost = driver.findElement(By.className("pay-description__cost"));
+        new WebDriverWait(driver, 10).until(ExpectedConditions.textToBePresentInElement(divCost, "BYN"));
+
+
+
+        WebElement cost = driver.findElement(By.tagName("span"));
+        String costText = cost.getText();
+
+        phone = driver.findElement(By.className("pay-description__text"));
+        String phoneText = phone.getText();
+
+        WebElement input = driver.findElement(By.className("ng-tns-c46-1"));
+        String placeholder = input.getText();
+
+        WebElement button = driver.findElement(By.tagName("button"));
+        String buttonText = button.getText();
+
+        assertEquals(expected_cost+".00 BYN", costText);
+        assertEquals("Оплата: Услуги связи Номер:375"+expected_phone, phoneText);
+        assertEquals("Номер карты", placeholder);
+        assertEquals("Оплатить "+expected_cost+".00 BYN", buttonText);
     }
 
 }

@@ -1,7 +1,4 @@
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -43,6 +40,7 @@ class ChromeTest {
     }
 
     @Test
+    @DisplayName("Test Fields")
     void testFields() {
         WebElement field = driver.findElement(By.className("pay"));
 
@@ -95,6 +93,7 @@ class ChromeTest {
     }
 
     @Test
+    @DisplayName("Test Frame")
     void testFrame() throws InterruptedException {
         WebElement field = driver.findElement(By.className("pay"));
         WebElement phone = field.findElement(By.id("connection-phone"));

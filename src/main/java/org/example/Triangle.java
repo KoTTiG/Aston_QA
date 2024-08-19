@@ -1,13 +1,11 @@
 package org.example;
 
-public class Triangle implements Shape{
+public class Triangle extends Shape {
 
-    private String borderColor;
-    private String fillColor;
-    private int a;
-    private int b;
-    private int c;
-    private int h;
+    private final int a;
+    private final int b;
+    private final int c;
+    private final int h;
 
     public Triangle(String borderColor, String fillColor, int a, int b, int c, int h) {
         this.borderColor = borderColor;
@@ -18,19 +16,24 @@ public class Triangle implements Shape{
         this.h = h;
     }
 
-    public double perimeter(){
-        return a+b+c;
+
+    @Override
+    public double getArea() {
+        return a * h / 2.0;
     }
 
-    public double area(){
-        return 0.5 * a * h;
+    @Override
+    public double getPerimeter() {
+        return a + b + c;
     }
 
-    public String getBorderColor() {
-        return borderColor;
-    }
-
-    public String getFillColor() {
-        return fillColor;
+    @Override
+    public String toString() {
+        return "Triangle{" +
+                "fillColor='" + fillColor + '\'' +
+                ", borderColor='" + borderColor + '\'' +
+                ", area='" + getArea() + '\'' +
+                ", perimeter='" + getPerimeter() + '\'' +
+                '}';
     }
 }

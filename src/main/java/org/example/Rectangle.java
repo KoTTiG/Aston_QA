@@ -1,13 +1,10 @@
 package org.example;
 
-public class Rectangle implements Shape{
+public class Rectangle extends Shape {
 
-    private String borderColor;
-    private String fillColor;
-    private int a;
-    private int b;
-
-    private int h;
+    private final int a;
+    private final int b;
+    private final int h;
 
     public Rectangle(String borderColor, String fillColor, int a, int b, int h) {
         this.borderColor = borderColor;
@@ -17,19 +14,23 @@ public class Rectangle implements Shape{
         this.h = h;
     }
 
-    public double perimeter(){
-        return a+b * 2;
-    }
-
-    public double area(){
+    @Override
+    public double getArea() {
         return a * h;
     }
 
-    public String getBorderColor() {
-        return borderColor;
+    @Override
+    public double getPerimeter() {
+        return (a + b) * 2;
     }
 
-    public String getFillColor() {
-        return fillColor;
+    @Override
+    public String toString() {
+        return "Rectangle{" +
+                "fillColor='" + fillColor + '\'' +
+                ", borderColor='" + borderColor + '\'' +
+                ", area='" + getArea() + '\'' +
+                ", perimeter='" + getPerimeter() + '\'' +
+                '}';
     }
 }

@@ -1,10 +1,10 @@
 package org.example;
 
-public class Animal {
+public abstract class Animal {
 
-    String name;
-    int runSpeed;
-    int swimSpeed;
+    protected  String name;
+    protected  int runSpeed;
+    protected  int swimSpeed;
 
     public Animal(String name, int runSpeed, int swimSpeed) {
         this.name = name;
@@ -12,16 +12,8 @@ public class Animal {
         this.swimSpeed = swimSpeed;
     }
 
-    public void run(int length){
-        int runned = Math.min(runSpeed, length);
-        if (runSpeed == 0) System.out.println(name+ " не умеет бегать");
-        else System.out.println(name+ " пробежал " + runned + " метров");
-    }
+    abstract public void run(int length);
 
-    public void swim(int length){
-        int swimmed = Math.min(swimSpeed, length);
-        if (swimSpeed == 0) System.out.println(name+ " не умеет плавать");
-        else System.out.println(name+ " проплыл " + swimmed + " метров");
-    }
+    abstract public void swim(int length);
 
 }

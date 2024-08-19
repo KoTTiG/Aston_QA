@@ -1,14 +1,13 @@
 package org.example;
 
-public interface Shape {
+public abstract class Shape implements Area,Perimeter {
 
+    protected String fillColor;
+    protected String borderColor;
 
-    default double perimeter() {
-        return 0.0;
-    }
+    @Override
+    public abstract double getArea();
 
-    default double area() {
-        return 0.0;
-    }
-
+    @Override
+    public abstract double getPerimeter();
 }

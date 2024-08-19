@@ -1,10 +1,8 @@
 package org.example;
 
-public class Circle implements Shape{
+public class Circle extends Shape {
 
-    private String borderColor;
-    private String fillColor;
-    private int radius;
+    private final int radius;
 
     public Circle(int radius, String fillColor, String borderColor) {
         this.radius = radius;
@@ -12,23 +10,23 @@ public class Circle implements Shape{
         this.borderColor = borderColor;
     }
 
-    public double perimeter(){
-        return 2*radius * Math.PI;
+    @Override
+    public double getArea() {
+        return radius * radius * Math.PI;
     }
 
-    public double area(){
-        return radius*radius * Math.PI;
+    @Override
+    public double getPerimeter() {
+        return 2 * radius * Math.PI;
     }
 
-    public String getBorderColor() {
-        return borderColor;
-    }
-
-    public String getFillColor() {
-        return fillColor;
-    }
-
-    public int getRadius() {
-        return radius;
+    @Override
+    public String toString() {
+        return "Circle{" +
+                "fillColor='" + fillColor + '\'' +
+                ", borderColor='" + borderColor + '\'' +
+                ", area='" + getArea() + '\'' +
+                ", perimeter='" + getPerimeter() + '\'' +
+                '}';
     }
 }

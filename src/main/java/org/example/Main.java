@@ -11,38 +11,47 @@ public class Main {
                 {"2", "2", "2", "2"},
                 {"3", "3", "3", "3"},
                 {"4", "4", "4", "4"}};
+        String[][] notSymmetricalArray = { {"1", "1", "1", "1"},
+                {"2", "2"},
+                {"3", "3", "3", "3"},
+                {"4", "4", "4"}};
         String[][] strArray = { {"1", "a1", "1", "1"},
                 {"2", "2", "2", "2"},
                 {"3", "3", "3", "3"},
                 {"4", "4", "4", "4"}};
         try {
-
-
-            checkArraySize(intArray);
-            checkArraySize(wrongSizeArray);
-
-        } catch (MyArraySizeException e) {
+            int sum = SumArray(intArray);
+            System.out.println("Cумма элементов массива: " + sum);
+        } catch (MyArraySizeException|MyArrayDataException e) {
             System.out.println("Ошибка: " + e.getMessage());
         }
-        finally {
-            try {
-
-
-                SumArray(intArray);
-                SumArray(strArray);
-
-            } catch (MyArrayDataException e) {
-                System.out.println("Ошибка: " + e.getMessage());
-            }
+        try {
+            int sum = SumArray(notSymmetricalArray);
+            System.out.println("Cумма элементов массива: " + sum);
+        } catch (MyArraySizeException|MyArrayDataException e) {
+            System.out.println("Ошибка: " + e.getMessage());
         }
+        try {
+            int sum = SumArray(wrongSizeArray);
+            System.out.println("Cумма элементов массива: " + sum);
 
+        } catch (MyArraySizeException|MyArrayDataException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+        try {
+            int sum = SumArray(strArray);
+            System.out.println("Cумма элементов массива: " + sum);
+        } catch (MyArraySizeException|MyArrayDataException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
     }
 
-    public static void SumArray(String[][] array) throws MyArrayDataException {
-
+    public static int SumArray(String[][] array) throws MyArrayDataException, MyArraySizeException {
+            if ((array.length != 4)) throw new MyArraySizeException("Неправильный размер массива");
             int sum = 0;
             for (int i = 0; i < array.length; i++) {
-                for (int j = 0; j < array[0].length; j++) {
+                if (array[i].length != 4) throw new MyArraySizeException("Неправильный размер массива");
+                for (int j = 0; j < array[i].length; j++) {
                     try {
                     sum = sum + Integer.valueOf(array[i][j]);
                     }
@@ -51,15 +60,9 @@ public class Main {
                     }
                 }
             }
-            System.out.println("Сумма элементов в массиве = " +sum);
-
-
+            return sum;
     }
 
-    public static void checkArraySize(String[][] array) throws MyArraySizeException {
-
-        if ((array.length != 4) || (array[0].length != 4)) throw new MyArraySizeException("Неправильный размер массива");
-    }
 
 
 }

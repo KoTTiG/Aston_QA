@@ -1,7 +1,6 @@
 
 import org.example.Factorial;
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
@@ -9,23 +8,26 @@ import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
 
-class FactorialTest extends Assert {
+public class FactorialTest{
     private final Map<Integer, Integer> testData = new HashMap<>();
 
-    @BeforeClass
-    public void setUp() {
-        testData.put(5, 120);
-        testData.put(0, 1);
-        testData.put(-5, -1);
+    @DataProvider
+    public Object[][] factorialData() {
+        return new Object[][]{
+                {0, 1},
+                {5, 120},
+                //{-1, expectThrows(new ArithmeticException(""))}
+        };
     }
 
-    @Test
-    public  void factorialTest(){
-        for (Map.Entry<Integer,Integer> data : testData.entrySet()){
-            final int actual = data.getValue();
-            final int expected = Factorial.factorial(data.getKey());
-
-            assertEquals(actual,expected);
-        }
+    @Test (dataProvider = "factorialData")
+    public  void factorialTest(int value, int expected){
+        assertEquals(Factorial.factorial(value), expected);
     }
+
+    @Test(expectedExceptions = ArithmeticException.class)
+    public void factorialExceptionTest() {
+        Factorial.factorial(-1);
+    }
+
 }
